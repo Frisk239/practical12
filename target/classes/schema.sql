@@ -19,13 +19,15 @@ CREATE TABLE course (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Grade table (one-to-many relationship with Student)
+-- Grade table (many-to-many relationship between Student and Course)
 CREATE TABLE grade (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     student_id BIGINT NOT NULL,
+    course_id BIGINT NOT NULL,
     grade_value DOUBLE NOT NULL CHECK (grade_value >= 0.0 AND grade_value <= 100.0),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE
+    FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
 );
 
 -- Course-Student relationship table (many-to-many)

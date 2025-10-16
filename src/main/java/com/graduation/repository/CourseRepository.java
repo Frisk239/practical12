@@ -61,4 +61,11 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
      */
     @Query("SELECT COUNT(s) FROM Student s")
     long countAllStudents();
+
+    /**
+     * Find courses by student ID
+     * Time Complexity: O(n)
+     */
+    @Query("SELECT c FROM Course c JOIN c.students s WHERE s.studentId = :studentId")
+    List<Course> findCoursesByStudentId(@Param("studentId") String studentId);
 }

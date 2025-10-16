@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 /**
  * Activity 1: Grade entity
- * Represents a single grade for a student
+ * Represents a single grade for a student in a specific course
  */
 @Entity
 @Table(name = "grade")
@@ -20,6 +20,11 @@ public class Grade {
     @JoinColumn(name = "student_id", nullable = false)
     @JsonBackReference
     private Student student;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", nullable = false)
+    @JsonBackReference
+    private Course course;
 
     @Column(name = "grade_value", nullable = false)
     private Double gradeValue;
@@ -39,6 +44,13 @@ public class Grade {
 
     public Grade(Student student, Double gradeValue) {
         this.student = student;
+        this.gradeValue = gradeValue;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Grade(Student student, Course course, Double gradeValue) {
+        this.student = student;
+        this.course = course;
         this.gradeValue = gradeValue;
         this.createdAt = LocalDateTime.now();
     }
@@ -66,6 +78,14 @@ public class Grade {
 
     public void setGradeValue(Double gradeValue) {
         this.gradeValue = gradeValue;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public LocalDateTime getCreatedAt() {

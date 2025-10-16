@@ -57,19 +57,6 @@ function bindEnterKeyEvents() {
             createStudent();
         }
     });
-
-    // 成绩管理输入框
-    document.getElementById('gradeStudentId').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            document.getElementById('gradeValue').focus();
-        }
-    });
-
-    document.getElementById('gradeValue').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            addGrade();
-        }
-    });
 }
 
 // API调用辅助函数
@@ -193,34 +180,7 @@ function createStudentCard(student, rank) {
     return card;
 }
 
-async function addGrade() {
-    const studentId = document.getElementById('gradeStudentId').value.trim();
-    const gradeValue = parseFloat(document.getElementById('gradeValue').value);
 
-    if (!studentId) {
-        showMessage('请输入学生ID', 'error');
-        return;
-    }
-
-    if (isNaN(gradeValue) || gradeValue < 0 || gradeValue > 100) {
-        showMessage('请输入有效的成绩 (0-100)', 'error');
-        return;
-    }
-
-    try {
-        const student = await apiCall(`/students/${studentId}/grades`, {
-            method: 'POST',
-            body: JSON.stringify({ gradeValue })
-        });
-
-        showMessage(`成绩 ${gradeValue} 已添加到学生 ${studentId}`, 'success');
-        document.getElementById('gradeStudentId').value = '';
-        document.getElementById('gradeValue').value = '';
-        loadStudents();
-    } catch (error) {
-        showMessage('添加成绩失败: ' + error.message, 'error');
-    }
-}
 
 async function viewGrades(studentId) {
     if (!studentId) {
@@ -229,17 +189,24 @@ async function viewGrades(studentId) {
     }
 
     try {
+        console.log('Fetching grades for student:', studentId);
         const response = await apiCall(`/students/${studentId}/grades`);
-        const grades = response.grades;
+        console.log('API Response:', response);
+
+        const gradesByCourse = response.gradesByCourse;
         const statistics = response.statistics;
 
-        showGradesModal(studentId, grades, statistics);
+        console.log('gradesByCourse:', gradesByCourse);
+        console.log('statistics:', statistics);
+
+        showGradesModal(studentId, gradesByCourse, statistics);
     } catch (error) {
+        console.error('Error in viewGrades:', error);
         showMessage('查看成绩失败: ' + error.message, 'error');
     }
 }
 
-function showGradesModal(studentId, grades, statistics) {
+function showGradesModal(studentId, gradesByCourse, statistics) {
     const modal = document.getElementById('gradesModal');
     const title = document.getElementById('gradesModalTitle');
     const content = document.getElementById('gradesModalContent');
@@ -255,17 +222,22 @@ function showGradesModal(studentId, grades, statistics) {
             <p><strong>最低分:</strong> ${statistics.lowestGrade}</p>
         </div>
         <div>
-            <h3>详细成绩</h3>
+            <h3>各科成绩</h3>
     `;
 
-    if (grades.length === 0) {
+    if (Object.keys(gradesByCourse).length === 0) {
         html += '<p>暂无成绩记录</p>';
     } else {
-        html += '<div style="display: flex; flex-wrap: wrap; gap: 10px;">';
-        grades.forEach((grade, index) => {
-            html += `<span style="background: #e2e8f0; padding: 5px 10px; border-radius: 15px; font-size: 14px;">
-                        ${index + 1}. ${grade.gradeValue}
-                     </span>`;
+        html += '<div style="display: flex; flex-direction: column; gap: 15px;">';
+        Object.entries(gradesByCourse).forEach(([courseId, grades]) => {
+            html += `<div style="border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
+                        <strong>${courseId}:</strong> `;
+            grades.forEach((grade, index) => {
+                html += `<span style="background: #e2e8f0; padding: 3px 8px; border-radius: 12px; font-size: 14px; margin: 2px;">
+                            ${grade.toFixed(1)}
+                         </span>`;
+            });
+            html += '</div>';
         });
         html += '</div>';
     }

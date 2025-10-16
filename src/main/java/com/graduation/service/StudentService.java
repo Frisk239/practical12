@@ -1,15 +1,17 @@
 package com.graduation.service;
 
+import com.graduation.entity.Course;
 import com.graduation.entity.Grade;
 import com.graduation.entity.Student;
+import com.graduation.repository.CourseRepository;
 import com.graduation.repository.GradeRepository;
 import com.graduation.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Activity 1: Student Service
@@ -25,6 +27,9 @@ public class StudentService {
 
     @Autowired
     private GradeRepository gradeRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     /**
      * Create a new student
@@ -57,41 +62,53 @@ public class StudentService {
     }
 
     /**
-     * Add grade to student and update average
-     * Activity 1 Requirement: Allow grades to be updated
-     * Time Complexity: O(n) for average recalculation + O(log n) for database operations
+     * Add grade to student for a specific course
+     * Time Complexity: O(1) for database insert
      */
-    public Student addGrade(String studentId, Double gradeValue) {
+    public Student addGrade(String studentId, String courseId, double gradeValue) {
         Student student = studentRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("Student not found: " + studentId));
 
-        Grade grade = new Grade(gradeValue);
-        student.addGrade(grade);
+        Course course = courseRepository.findByCourseId(courseId)
+                .orElseThrow(() -> new IllegalArgumentException("Course not found: " + courseId));
 
+        Grade grade = new Grade(student, course, gradeValue);
         gradeRepository.save(grade);
+
+        // Update student's average grade
+        updateStudentAverageGrade(student);
         return studentRepository.save(student);
     }
 
     /**
-     * Update student's grades (replace all existing grades)
-     * Time Complexity: O(m + n) where m is number of new grades, n is existing grades
+     * Update student's grades (replace all)
+     * Time Complexity: O(n) for database operations
      */
     public Student updateGrades(String studentId, List<Double> newGrades) {
         Student student = studentRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("Student not found: " + studentId));
 
-        // Remove existing grades
-        gradeRepository.deleteByStudent(student);
-        student.getGrades().clear();
+        // Delete existing grades
+        gradeRepository.deleteByStudentId(studentId);
 
         // Add new grades
         for (Double gradeValue : newGrades) {
-            Grade grade = new Grade(gradeValue);
-            student.addGrade(grade);
+            Grade grade = new Grade(student, gradeValue);
             gradeRepository.save(grade);
         }
 
+        // Update student's average grade
+        updateStudentAverageGrade(student);
         return studentRepository.save(student);
+    }
+
+    /**
+     * Update student's average grade
+     * Time Complexity: O(1) for database aggregation
+     */
+    private void updateStudentAverageGrade(Student student) {
+        Double average = gradeRepository.findAverageGradeByStudentId(student.getStudentId());
+        student.setAverageGrade(average != null ? average : 0.0);
     }
 
     /**
@@ -112,6 +129,42 @@ public class StudentService {
      */
     public List<Grade> getStudentGrades(String studentId) {
         return gradeRepository.findByStudentId(studentId);
+    }
+
+    /**
+     * Get student grades mapped by course
+     * Time Complexity: O(n*m) where n is courses, m is grades per course
+     */
+    public Map<String, List<Double>> getStudentGradesByCourse(String studentId) {
+        System.out.println("=== getStudentGradesByCourse called for student: " + studentId);
+
+        Student student = studentRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("Student not found: " + studentId));
+
+        System.out.println("Found student: " + student.getStudentId());
+
+        Map<String, List<Double>> gradesByCourse = new HashMap<>();
+
+        // Get all courses this student is enrolled in
+        List<Course> courses = courseRepository.findCoursesByStudentId(studentId);
+        System.out.println("Found " + courses.size() + " courses for student");
+
+        for (Course course : courses) {
+            System.out.println("Processing course: " + course.getCourseId());
+            List<Double> courseGrades = gradeRepository.findGradesByStudentIdAndCourseId(studentId, course.getId())
+                    .stream()
+                    .map(Grade::getGradeValue)
+                    .collect(Collectors.toList());
+
+            System.out.println("Found " + courseGrades.size() + " grades for course " + course.getCourseId());
+
+            if (!courseGrades.isEmpty()) {
+                gradesByCourse.put(course.getCourseId(), courseGrades);
+            }
+        }
+
+        System.out.println("Returning gradesByCourse with " + gradesByCourse.size() + " entries");
+        return gradesByCourse;
     }
 
     /**

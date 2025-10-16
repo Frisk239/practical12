@@ -68,4 +68,11 @@ public interface GradeRepository extends JpaRepository<Grade, Long> {
      */
     @Query("DELETE FROM Grade g WHERE g.student.studentId = :studentId")
     void deleteByStudentId(@Param("studentId") String studentId);
+
+    /**
+     * Find grades by student ID and course ID
+     * Time Complexity: O(n)
+     */
+    @Query("SELECT g FROM Grade g JOIN g.student s JOIN s.courses c WHERE s.studentId = :studentId AND c.id = :courseId")
+    List<Grade> findGradesByStudentIdAndCourseId(@Param("studentId") String studentId, @Param("courseId") Long courseId);
 }

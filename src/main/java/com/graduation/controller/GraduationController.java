@@ -129,11 +129,11 @@ public class GraduationController {
     @GetMapping("/students/{studentId}/grades")
     public ResponseEntity<?> getStudentGrades(@PathVariable String studentId) {
         try {
-            var grades = studentService.getStudentGrades(studentId);
+            var gradesByCourse = studentService.getStudentGradesByCourse(studentId);
             var statistics = studentService.getStudentStatistics(studentId);
 
             Map<String, Object> response = new HashMap<>();
-            response.put("grades", grades);
+            response.put("gradesByCourse", gradesByCourse);
             response.put("statistics", statistics);
 
             return ResponseEntity.ok(response);
