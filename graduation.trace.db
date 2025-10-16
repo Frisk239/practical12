@@ -23,3 +23,5 @@ CREATE TABLE student ( id BIGINT AUTO_INCREMENT PRIMARY KEY, student_id VARCHAR(
 org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
 2025-10-16 19:38:33.342414+08:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-10-16 19:44:36.305539+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]

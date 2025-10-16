@@ -27,6 +27,9 @@ public class CourseService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private com.graduation.repository.GradeRepository gradeRepository;
+
     /**
      * Create a new course
      * Time Complexity: O(1) for database insert
@@ -98,6 +101,8 @@ public class CourseService {
             student.getGrades().add(grade);
         }
 
+        // Update student's average grade after grade changes
+        updateStudentAverageGrade(student);
         studentRepository.save(student);
         course.updateStudentGrades(student);
 
@@ -211,6 +216,15 @@ public class CourseService {
         public double getHighestAverage() { return highestAverage; }
         public double getLowestAverage() { return lowestAverage; }
         public double getTotalAverageSum() { return totalAverageSum; }
+    }
+
+    /**
+     * Update student's average grade
+     * Time Complexity: O(1) for database aggregation
+     */
+    private void updateStudentAverageGrade(Student student) {
+        Double average = gradeRepository.findAverageGradeByStudentId(student.getStudentId());
+        student.setAverageGrade(average != null ? average : 0.0);
     }
 
     /**
