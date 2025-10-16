@@ -305,18 +305,59 @@ async function loadCourses() {
     try {
         const courses = await apiCall('/courses');
         const select = document.getElementById('courseSelect');
+        const deleteSelect = document.getElementById('deleteCourseSelect');
 
         // 清空现有选项（保留默认选项）
         select.innerHTML = '<option value="">选择课程</option>';
+        deleteSelect.innerHTML = '<option value="">选择要删除的课程</option>';
 
         courses.forEach(course => {
             const option = document.createElement('option');
             option.value = course.course.courseId;
             option.textContent = `${course.course.courseId} (${course.course.academicYear}) - ${course.studentCount} 名学生`;
             select.appendChild(option);
+
+            const deleteOption = document.createElement('option');
+            deleteOption.value = course.course.courseId;
+            deleteOption.textContent = `${course.course.courseId} (${course.course.academicYear})`;
+            deleteSelect.appendChild(deleteOption);
         });
     } catch (error) {
         showMessage('加载课程列表失败', 'error');
+    }
+}
+
+async function deleteCourse() {
+    const courseId = document.getElementById('deleteCourseSelect').value;
+
+    if (!courseId) {
+        showMessage('请选择要删除的课程', 'error');
+        return;
+    }
+
+    if (!confirm(`确定要删除课程 ${courseId} 吗？\n\n这将同时删除：\n- 该课程的所有成绩记录\n- 该课程的所有选课记录\n\n此操作不可撤销！`)) {
+        return;
+    }
+
+    try {
+        // DELETE请求返回空响应体，直接使用fetch而不通过apiCall
+        const response = await fetch(API_BASE + `/courses/${courseId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        showMessage(`课程 ${courseId} 已删除`, 'success');
+        document.getElementById('deleteCourseSelect').value = '';
+        loadCourses(); // 刷新课程列表
+        loadStatistics(); // 刷新统计信息
+    } catch (error) {
+        showMessage('删除课程失败: ' + error.message, 'error');
     }
 }
 

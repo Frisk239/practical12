@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -216,6 +217,28 @@ public class CourseService {
         public double getHighestAverage() { return highestAverage; }
         public double getLowestAverage() { return lowestAverage; }
         public double getTotalAverageSum() { return totalAverageSum; }
+    }
+
+    /**
+     * Delete a course and all associated data
+     * Time Complexity: O(n) for database operations
+     */
+    public void deleteCourse(String courseId) {
+        Course course = courseRepository.findByCourseId(courseId)
+                .orElseThrow(() -> new IllegalArgumentException("Course not found: " + courseId));
+
+        // Get all students enrolled in this course to update their average grades later
+        List<Student> enrolledStudents = new ArrayList<>(course.getStudents());
+
+        // Delete the course (this will cascade delete grades due to foreign key constraints)
+        // But we need to manually handle course_student relationships
+        courseRepository.delete(course);
+
+        // Update average grades for all students who were enrolled in this course
+        for (Student student : enrolledStudents) {
+            updateStudentAverageGrade(student);
+            studentRepository.save(student);
+        }
     }
 
     /**

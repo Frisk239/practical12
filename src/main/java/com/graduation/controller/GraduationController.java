@@ -248,6 +248,19 @@ public class GraduationController {
     }
 
     /**
+     * Delete course
+     */
+    @DeleteMapping("/courses/{courseId}")
+    public ResponseEntity<Void> deleteCourse(@PathVariable String courseId) {
+        try {
+            courseService.deleteCourse(courseId);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
      * Get all courses summary
      */
     @GetMapping("/courses")
