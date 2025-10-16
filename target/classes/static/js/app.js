@@ -232,11 +232,15 @@ function showGradesModal(studentId, gradesByCourse, statistics) {
         Object.entries(gradesByCourse).forEach(([courseId, grades]) => {
             html += `<div style="border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
                         <strong>${courseId}:</strong> `;
-            grades.forEach((grade, index) => {
-                html += `<span style="background: #e2e8f0; padding: 3px 8px; border-radius: 12px; font-size: 14px; margin: 2px;">
-                            ${grade.toFixed(1)}
-                         </span>`;
-            });
+            if (grades.length === 0) {
+                html += `<span style="color: #666; font-style: italic;">暂无成绩</span>`;
+            } else {
+                grades.forEach((grade, index) => {
+                    html += `<span style="background: #e2e8f0; padding: 3px 8px; border-radius: 12px; font-size: 14px; margin: 2px;">
+                                ${grade.toFixed(1)}
+                             </span>`;
+                });
+            }
             html += '</div>';
         });
         html += '</div>';

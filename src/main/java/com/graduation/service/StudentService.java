@@ -159,9 +159,8 @@ public class StudentService {
 
             System.out.println("Found " + courseGrades.size() + " grades for course " + course.getCourseId() + ": " + courseGrades);
 
-            if (!courseGrades.isEmpty()) {
-                gradesByCourse.put(course.getCourseId(), courseGrades);
-            }
+            // Include all enrolled courses, even if no grades yet
+            gradesByCourse.put(course.getCourseId(), courseGrades);
         }
 
         System.out.println("Returning gradesByCourse with " + gradesByCourse.size() + " entries");

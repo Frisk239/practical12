@@ -19,3 +19,7 @@ select c1_0.id,c1_0.academic_year,c1_0.course_id,count(s1_0.student_id) from cou
 2025-10-16 18:59:27.653392+08:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "STUDENT" already exists; SQL statement:
 CREATE TABLE student ( id BIGINT AUTO_INCREMENT PRIMARY KEY, student_id VARCHAR(50) NOT NULL UNIQUE, average_grade DOUBLE DEFAULT 0.0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ) [42101-224]
+2025-10-16 19:32:21.372157+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-10-16 19:38:33.342414+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]

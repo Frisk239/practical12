@@ -78,7 +78,7 @@ public class CourseService {
     }
 
     /**
-     * Update student grades and resort the course student list
+     * Update student grades for a specific course and resort the course student list
      * Activity 1 Requirement: Allow grades to be updated and reflect in ordering
      * Time Complexity: O(n log n) due to sorting
      */
@@ -89,10 +89,13 @@ public class CourseService {
         Student student = studentRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("Student not found: " + studentId));
 
-        // Update student's grades
-        student.getGrades().clear();
+        // Delete existing grades for this course
+        student.getGrades().removeIf(grade -> grade.getCourse().getId().equals(course.getId()));
+
+        // Add new grades for this course
         for (Double gradeValue : newGrades) {
-            student.addGrade(new com.graduation.entity.Grade(gradeValue));
+            com.graduation.entity.Grade grade = new com.graduation.entity.Grade(student, course, gradeValue);
+            student.getGrades().add(grade);
         }
 
         studentRepository.save(student);
