@@ -16,3 +16,6 @@ INSERT INTO course (course_id, academic_year) VALUES ('CS101', '2024-2025') [421
 2025-10-16 18:54:13.510257+08:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "COURSE" not found (this database is empty); SQL statement:
 select c1_0.id,c1_0.academic_year,c1_0.course_id,count(s1_0.student_id) from course c1_0 left join course_student s1_0 on c1_0.id=s1_0.course_id group by c1_0.id [42104-224]
+2025-10-16 18:59:27.653392+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "STUDENT" already exists; SQL statement:
+CREATE TABLE student ( id BIGINT AUTO_INCREMENT PRIMARY KEY, student_id VARCHAR(50) NOT NULL UNIQUE, average_grade DOUBLE DEFAULT 0.0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ) [42101-224]

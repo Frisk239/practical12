@@ -151,12 +151,13 @@ public class StudentService {
 
         for (Course course : courses) {
             System.out.println("Processing course: " + course.getCourseId());
-            List<Double> courseGrades = gradeRepository.findGradesByStudentIdAndCourseId(studentId, course.getId())
-                    .stream()
+            // Use the correct query that filters by both student and course
+            List<Grade> grades = gradeRepository.findGradesByStudentIdAndCourseId(studentId, course.getId());
+            List<Double> courseGrades = grades.stream()
                     .map(Grade::getGradeValue)
                     .collect(Collectors.toList());
 
-            System.out.println("Found " + courseGrades.size() + " grades for course " + course.getCourseId());
+            System.out.println("Found " + courseGrades.size() + " grades for course " + course.getCourseId() + ": " + courseGrades);
 
             if (!courseGrades.isEmpty()) {
                 gradesByCourse.put(course.getCourseId(), courseGrades);
