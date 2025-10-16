@@ -43,6 +43,15 @@
         <!-- 课程管理标签页 -->
         <div id="courses-tab" class="tab-content">
             <div class="section">
+                <h2>课程信息管理</h2>
+                <div class="form-group">
+                    <input type="text" id="newCourseId" placeholder="课程ID" maxlength="20">
+                    <input type="text" id="newAcademicYear" placeholder="学年 (如: 2024-2025)" maxlength="20">
+                    <button onclick="createCourse()" class="btn btn-primary">新建课程</button>
+                </div>
+            </div>
+
+            <div class="section">
                 <h2>课程学生管理</h2>
                 <div class="form-group">
                     <select id="courseSelect" onchange="loadCourseStudents()">

@@ -227,6 +227,27 @@ public class GraduationController {
     }
 
     /**
+     * Create new course
+     */
+    @PostMapping("/courses")
+    public ResponseEntity<Course> createCourse(@RequestBody Map<String, String> request) {
+        String courseId = request.get("courseId");
+        String academicYear = request.get("academicYear");
+
+        if (courseId == null || courseId.trim().isEmpty() ||
+            academicYear == null || academicYear.trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        try {
+            Course course = courseService.createCourse(courseId.trim(), academicYear.trim());
+            return ResponseEntity.ok(course);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
      * Get all courses summary
      */
     @GetMapping("/courses")

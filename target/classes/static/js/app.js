@@ -277,6 +277,30 @@ async function deleteStudent(studentId) {
 }
 
 // 课程管理功能
+async function createCourse() {
+    const courseId = document.getElementById('newCourseId').value.trim();
+    const academicYear = document.getElementById('newAcademicYear').value.trim();
+
+    if (!courseId || !academicYear) {
+        showMessage('请填写课程ID和学年', 'error');
+        return;
+    }
+
+    try {
+        const course = await apiCall('/courses', {
+            method: 'POST',
+            body: JSON.stringify({ courseId, academicYear })
+        });
+
+        showMessage(`课程 ${course.courseId} 创建成功`, 'success');
+        document.getElementById('newCourseId').value = '';
+        document.getElementById('newAcademicYear').value = '';
+        loadCourses(); // 刷新课程列表
+    } catch (error) {
+        showMessage('创建课程失败: ' + error.message, 'error');
+    }
+}
+
 async function loadCourses() {
     try {
         const courses = await apiCall('/courses');
@@ -461,14 +485,6 @@ async function loadStatistics() {
             <div class="stat-card">
                 <div class="stat-value">${totalStudents}</div>
                 <div class="stat-label">总学生数</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">${health.version}</div>
-                <div class="stat-label">系统版本</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">${health.status}</div>
-                <div class="stat-label">系统状态</div>
             </div>
         `;
 
