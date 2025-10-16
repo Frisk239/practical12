@@ -1,0 +1,28 @@
+2025-10-16 16:27:49.780189+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "STUDENT" not found (this database is empty); SQL statement:
+select s1_0.id,s1_0.average_grade,s1_0.student_id from student s1_0 order by s1_0.average_grade desc [42104-224]
+2025-10-16 16:27:51.039595+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "COURSE" not found (this database is empty); SQL statement:
+select c1_0.id,c1_0.academic_year,c1_0.course_id,count(s1_0.student_id) from course c1_0 left join course_student s1_0 on c1_0.id=s1_0.course_id group by c1_0.id [42104-224]
+2025-10-16 16:27:52.565293+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "COURSE" not found (this database is empty); SQL statement:
+select c1_0.id,c1_0.academic_year,c1_0.course_id,count(s1_0.student_id) from course c1_0 left join course_student s1_0 on c1_0.id=s1_0.course_id group by c1_0.id [42104-224]
+2025-10-16 16:27:57.402390+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "COURSE" not found (this database is empty); SQL statement:
+select c1_0.id,c1_0.academic_year,c1_0.course_id,count(s1_0.student_id) from course c1_0 left join course_student s1_0 on c1_0.id=s1_0.course_id group by c1_0.id [42104-224]
+2025-10-16 16:27:58.208585+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "STUDENT" not found (this database is empty); SQL statement:
+select s1_0.id,s1_0.average_grade,s1_0.student_id from student s1_0 order by s1_0.average_grade desc [42104-224]
+2025-10-16 16:40:24.936275+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "STUDENT" already exists; SQL statement:
+CREATE TABLE student ( id BIGINT AUTO_INCREMENT PRIMARY KEY, student_id VARCHAR(50) NOT NULL UNIQUE, average_grade DOUBLE DEFAULT 0.0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ) [42101-224]
+2025-10-16 16:42:33.390262+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-10-16 16:42:44.236730+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-10-16 16:48:03.492723+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-10-16 17:01:42.665298+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-10-16 17:02:11.040687+08:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
