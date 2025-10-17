@@ -107,7 +107,7 @@ async function createStudent() {
     const studentId = document.getElementById('newStudentId').value.trim();
 
     if (!studentId) {
-        showMessage('请输入学生ID', 'error');
+        showMessage('请输入学生ID (Please enter Student ID)', 'error');
         return;
     }
 
@@ -117,11 +117,11 @@ async function createStudent() {
             body: JSON.stringify({ studentId })
         });
 
-        showMessage(`学生 ${student.studentId} 创建成功`, 'success');
+        showMessage(`学生 ${student.studentId} 创建成功 (Student ${student.studentId} created successfully)`, 'success');
         document.getElementById('newStudentId').value = '';
         loadStudents();
     } catch (error) {
-        showMessage('创建学生失败: ' + error.message, 'error');
+        showMessage('创建学生失败 (Failed to create student): ' + error.message, 'error');
     }
 }
 
@@ -133,7 +133,7 @@ async function loadStudents() {
         const students = await apiCall('/students');
 
         if (students.length === 0) {
-            container.innerHTML = '<p class="loading">暂无学生数据</p>';
+        container.innerHTML = '<p class="loading">暂无学生数据 (No student data)</p>';
             return;
         }
 
@@ -143,8 +143,8 @@ async function loadStudents() {
             container.appendChild(studentCard);
         });
     } catch (error) {
-        container.innerHTML = '<p class="loading">加载失败: ' + error.message + '</p>';
-        showMessage('加载学生列表失败', 'error');
+        container.innerHTML = '<p class="loading">加载失败 (Loading failed): ' + error.message + '</p>';
+        showMessage('加载学生列表失败 (Failed to load student list)', 'error');
     }
 }
 
@@ -184,7 +184,7 @@ function createStudentCard(student, rank) {
 
 async function viewGrades(studentId) {
     if (!studentId) {
-        showMessage('请选择一个学生', 'error');
+        showMessage('请选择一个学生 (Please select a student)', 'error');
         return;
     }
 
@@ -202,7 +202,7 @@ async function viewGrades(studentId) {
         showGradesModal(studentId, gradesByCourse, statistics);
     } catch (error) {
         console.error('Error in viewGrades:', error);
-        showMessage('查看成绩失败: ' + error.message, 'error');
+        showMessage('查看成绩失败 (Failed to view grades): ' + error.message, 'error');
     }
 }
 
@@ -272,7 +272,7 @@ async function deleteStudent(studentId) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
     } catch (error) {
-        showMessage('删除学生失败: ' + error.message, 'error');
+        showMessage('删除学生失败 (Failed to delete student): ' + error.message, 'error');
     }
 }
 
@@ -282,7 +282,7 @@ async function createCourse() {
     const academicYear = document.getElementById('newAcademicYear').value.trim();
 
     if (!courseId || !academicYear) {
-        showMessage('请填写课程ID和学年', 'error');
+        showMessage('请填写课程ID和学年 (Please fill in Course ID and Academic Year)', 'error');
         return;
     }
 
@@ -292,12 +292,12 @@ async function createCourse() {
             body: JSON.stringify({ courseId, academicYear })
         });
 
-        showMessage(`课程 ${course.courseId} 创建成功`, 'success');
+        showMessage(`课程 ${course.courseId} 创建成功 (Course ${course.courseId} created successfully)`, 'success');
         document.getElementById('newCourseId').value = '';
         document.getElementById('newAcademicYear').value = '';
         loadCourses(); // 刷新课程列表
     } catch (error) {
-        showMessage('创建课程失败: ' + error.message, 'error');
+        showMessage('创建课程失败 (Failed to create course): ' + error.message, 'error');
     }
 }
 
@@ -323,7 +323,7 @@ async function loadCourses() {
             deleteSelect.appendChild(deleteOption);
         });
     } catch (error) {
-        showMessage('加载课程列表失败', 'error');
+        showMessage('加载课程列表失败 (Failed to load course list)', 'error');
     }
 }
 
@@ -331,7 +331,7 @@ async function deleteCourse() {
     const courseId = document.getElementById('deleteCourseSelect').value;
 
     if (!courseId) {
-        showMessage('请选择要删除的课程', 'error');
+        showMessage('请选择要删除的课程 (Please select a course to delete)', 'error');
         return;
     }
 
@@ -357,7 +357,7 @@ async function deleteCourse() {
         loadCourses(); // 刷新课程列表
         loadStatistics(); // 刷新统计信息
     } catch (error) {
-        showMessage('删除课程失败: ' + error.message, 'error');
+        showMessage('删除课程失败 (Failed to delete course): ' + error.message, 'error');
     }
 }
 
@@ -387,7 +387,7 @@ async function loadCourseStudents() {
         });
     } catch (error) {
         container.innerHTML = '<p class="loading">加载失败: ' + error.message + '</p>';
-        showMessage('加载课程学生列表失败', 'error');
+        showMessage('加载课程学生列表失败 (Failed to load course student list)', 'error');
     }
 }
 
@@ -425,12 +425,12 @@ async function addStudentToCourse() {
     const studentId = document.getElementById('courseStudentId').value.trim();
 
     if (!courseId) {
-        showMessage('请选择课程', 'error');
+        showMessage('请选择课程 (Please select a course)', 'error');
         return;
     }
 
     if (!studentId) {
-        showMessage('请输入学生ID', 'error');
+        showMessage('请输入学生ID (Please enter Student ID)', 'error');
         return;
     }
 
@@ -444,7 +444,7 @@ async function addStudentToCourse() {
         loadCourseStudents();
         loadCourses(); // 刷新课程统计
     } catch (error) {
-        showMessage('添加学生到课程失败: ' + error.message, 'error');
+        showMessage('添加学生到课程失败 (Failed to add student to course): ' + error.message, 'error');
     }
 }
 
@@ -458,7 +458,7 @@ async function removeStudentFromCourse(courseId, studentId) {
         loadCourseStudents();
         loadCourses(); // 刷新课程统计
     } catch (error) {
-        showMessage('从课程移除学生失败: ' + error.message, 'error');
+        showMessage('从课程移除学生失败 (Failed to remove student from course): ' + error.message, 'error');
     }
 }
 
@@ -468,7 +468,7 @@ async function updateStudentGrades() {
     const gradesText = document.getElementById('updateGrades').value.trim();
 
     if (!courseId || !studentId || !gradesText) {
-        showMessage('请填写所有字段', 'error');
+        showMessage('请填写所有字段 (Please fill in all fields)', 'error');
         return;
     }
 
@@ -494,7 +494,7 @@ async function updateStudentGrades() {
         loadCourseStudents();
         loadStudents();
     } catch (error) {
-        showMessage('更新成绩失败: ' + error.message, 'error');
+        showMessage('更新成绩失败 (Failed to update grades): ' + error.message, 'error');
     }
 }
 
@@ -546,7 +546,7 @@ async function loadStatistics() {
 
     } catch (error) {
         container.innerHTML = '<p class="loading">加载统计信息失败: ' + error.message + '</p>';
-        showMessage('加载统计信息失败', 'error');
+        showMessage('加载统计信息失败 (Failed to load statistics)', 'error');
     }
 }
 
