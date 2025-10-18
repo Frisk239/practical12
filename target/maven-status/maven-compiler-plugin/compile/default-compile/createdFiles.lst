@@ -2,7 +2,6 @@ com\graduation\entity\Student.class
 com\graduation\repository\CourseRepository.class
 com\graduation\service\CourseService.class
 com\graduation\service\StudentService$StudentStatistics.class
-com\graduation\controller\GraduationController.class
 com\graduation\service\StudentService.class
 com\graduation\repository\GradeRepository.class
 com\graduation\entity\Grade.class

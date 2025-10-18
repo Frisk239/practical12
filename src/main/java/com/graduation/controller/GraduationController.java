@@ -71,14 +71,20 @@ public class GraduationController {
      */
     @PostMapping("/students/{studentId}/grades")
     public ResponseEntity<Student> addGrade(@PathVariable String studentId,
-                                          @RequestBody Map<String, Double> request) {
-        Double gradeValue = request.get("gradeValue");
+                                          @RequestBody Map<String, Object> request) {
+        Double gradeValue = ((Number) request.get("gradeValue")).doubleValue();
+        String courseId = (String) request.get("courseId");
+
         if (gradeValue == null || gradeValue < 0.0 || gradeValue > 100.0) {
             return ResponseEntity.badRequest().build();
         }
 
+        if (courseId == null || courseId.trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
         try {
-            Student student = studentService.addGrade(studentId, gradeValue);
+            Student student = studentService.addGrade(studentId, courseId.trim(), gradeValue);
             return ResponseEntity.ok(student);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();

@@ -6,6 +6,45 @@
 
 这是一个完整的毕业记录管理系统，实现了学生信息管理、课程管理、成绩记录和统计分析等功能。系统采用Java的LinkedList数据结构作为核心数据存储，同时提供了RESTful API和现代化的Web界面。
 
+## 🎯 教学活动要求
+
+### Activity 1: 毕业记录管理系统 (Portfolio Task)
+基于Java的LinkedList数据结构实现毕业记录管理系统，包含以下核心要求：
+
+#### **Student类要求**
+- ✅ 存储学生ID、成绩列表和平均成绩
+- ✅ 实现`toString()`方法提供人类友好的表示
+- ✅ 实现`Comparable`接口支持总排序（按平均成绩降序）
+
+#### **Course类要求**
+- ✅ 存储课程ID、学年和学生列表
+- ✅ 允许学生插入到学生列表（添加新学生）
+- ✅ 允许学生从学生列表移除（删除现有学生）
+- ✅ 保持学生列表按平均成绩降序排序
+- ✅ 允许更新学生成绩（成绩变化反映在排序中）
+- ✅ 每次更改后打印学生列表
+
+#### **GraduationRecords类要求**
+- ✅ 包含main函数驱动事件
+- ✅ 创建课程实例
+- ✅ 随后插入、更新、移除学生
+
+#### **演示方式**
+运行 `start2.bat` 启动控制台演示，完整展示Activity 1的所有要求。
+
+### Activity 3: 数据结构实现 (Optional Task)
+实现自定义的链表数据结构，使用String类而不是泛型：
+
+#### **SinglyLinkedList (单链表)**
+- ✅ 使用String类存储节点数据
+- ✅ 实现基本的链表操作（添加、删除、查找等）
+- ✅ 包含详细的时间复杂度注释
+
+#### **DoublyLinkedList (双链表)**
+- ✅ 使用String类存储节点数据
+- ✅ 实现双向链表的所有操作
+- ✅ 优化查找算法（根据索引位置选择遍历方向）
+
 ## ✨ 主要功能
 
 ### 学生管理
@@ -68,20 +107,37 @@
    cd practical12
    ```
 
-2. **启动应用**
-   - **方式一（推荐）**：双击运行 `start.bat` 文件
-   - **方式二**：手动启动
-     ```bash
-     # 设置Maven环境（Windows）
-     set MAVEN_HOME=apache-maven-3.9.11
-     set PATH=%MAVEN_HOME%\bin;%PATH%
+2. **选择启动方式**
 
-     # 启动应用
-     mvn spring-boot:run
-     ```
+   #### **方式一：完整Web应用（推荐）**
+   - 双击运行 `start.bat` 文件
+   - 启动完整的Spring Boot Web应用
+   - 包含数据库、REST API和现代化Web界面
+   - 访问地址：http://localhost:8080
+
+   #### **方式二：控制台演示（Activity 1要求）**
+   - 双击运行 `start2.bat` 文件
+   - 运行纯控制台应用，演示Activity 1的所有要求
+   - 展示课程管理、学生排序、成绩更新等核心功能
+   - 在命令行窗口显示所有操作结果
+
+   #### **方式三：手动启动**
+   ```bash
+   # 设置Maven环境（Windows）
+   set MAVEN_HOME=apache-maven-3.9.11
+   set PATH=%MAVEN_HOME%\bin;%PATH%
+
+   # 启动完整Web应用
+   mvn spring-boot:run
+
+   # 或者运行控制台演示
+   mvn compile -q
+   java -cp "target/classes" com.graduation.GraduationRecords
+   ```
 
 3. **访问系统**
-   打开浏览器访问：http://localhost:8080
+   - **Web应用**：打开浏览器访问 http://localhost:8080
+   - **控制台演示**：直接查看命令行输出
 
 ## 📁 项目结构
 

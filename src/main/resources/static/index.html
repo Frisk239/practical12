@@ -1,110 +1,110 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>毕业记录管理系统 (Graduation Records Management System)</title>
+    <title>Graduation Records Management System (毕业记录管理系统)</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🎓 毕业记录管理系统 (Graduation Records Management System)</h1>
-            <p>基于Java LinkedList的数据结构实现 (Based on Java LinkedList Data Structure)</p>
+            <h1>🎓 Graduation Records Management System (毕业记录管理系统)</h1>
+            <p>Based on Java LinkedList Data Structure (基于Java LinkedList的数据结构实现)</p>
         </header>
 
         <nav class="nav-tabs">
-            <button class="tab-button active" onclick="showTab('students')">学生管理 (Student Management)</button>
-            <button class="tab-button" onclick="showTab('courses')">课程管理 (Course Management)</button>
-            <button class="tab-button" onclick="showTab('statistics')">统计信息 (Statistics)</button>
+            <button class="tab-button active" onclick="showTab('students')">Student Management (学生管理)</button>
+            <button class="tab-button" onclick="showTab('courses')">Course Management (课程管理)</button>
+            <button class="tab-button" onclick="showTab('statistics')">Statistics (统计信息)</button>
         </nav>
 
-        <!-- 学生管理标签页 -->
+        <!-- Student Management Tab -->
         <div id="students-tab" class="tab-content active">
             <div class="section">
-                <h2>添加新学生 (Add New Student)</h2>
+                <h2>Add New Student (添加新学生)</h2>
                 <div class="form-group">
-                    <input type="text" id="newStudentId" placeholder="输入学生ID (Enter Student ID)" maxlength="20">
-                    <button onclick="createStudent()" class="btn btn-primary">添加学生 (Add Student)</button>
+                    <input type="text" id="newStudentId" placeholder="Enter Student ID (输入学生ID)" maxlength="20">
+                    <button onclick="createStudent()" class="btn btn-primary">Add Student (添加学生)</button>
                 </div>
             </div>
 
             <div class="section">
-                <h2>学生列表 (按平均成绩降序) (Student List - Descending by Average Grade)</h2>
-                <button onclick="loadStudents()" class="btn btn-secondary">刷新列表 (Refresh List)</button>
+                <h2>Student List (Descending by Average Grade) (学生列表 - 按平均成绩降序)</h2>
+                <button onclick="loadStudents()" class="btn btn-secondary">Refresh List (刷新列表)</button>
                 <div id="studentsList" class="list-container">
-                    <p class="loading">正在加载学生列表... (Loading student list...)</p>
+                    <p class="loading">Loading student list... (正在加载学生列表)</p>
                 </div>
             </div>
 
 
         </div>
 
-        <!-- 课程管理标签页 -->
+        <!-- Course Management Tab -->
         <div id="courses-tab" class="tab-content">
             <div class="section">
-                <h2>课程信息管理 (Course Information Management)</h2>
+                <h2>Course Information Management (课程信息管理)</h2>
                 <div class="form-group">
-                    <input type="text" id="newCourseId" placeholder="课程ID (Course ID)" maxlength="20">
-                    <input type="text" id="newAcademicYear" placeholder="学年 (如: 2024-2025) (Academic Year e.g.: 2024-2025)" maxlength="20">
-                    <button onclick="createCourse()" class="btn btn-primary">新建课程 (Create Course)</button>
+                    <input type="text" id="newCourseId" placeholder="Course ID (课程ID)" maxlength="20">
+                    <input type="text" id="newAcademicYear" placeholder="Academic Year (e.g.: 2024-2025) (学年 - 如: 2024-2025)" maxlength="20">
+                    <button onclick="createCourse()" class="btn btn-primary">Create Course (新建课程)</button>
                     <select id="deleteCourseSelect" style="margin-left: 10px;">
-                        <option value="">选择要删除的课程 (Select course to delete)</option>
+                        <option value="">Select course to delete (选择要删除的课程)</option>
                     </select>
-                    <button onclick="deleteCourse()" class="btn btn-danger">删除课程 (Delete Course)</button>
+                    <button onclick="deleteCourse()" class="btn btn-danger">Delete Course (删除课程)</button>
                 </div>
             </div>
 
             <div class="section">
-                <h2>课程学生管理 (Course Student Management)</h2>
+                <h2>Course Student Management (课程学生管理)</h2>
                 <div class="form-group">
                     <select id="courseSelect" onchange="loadCourseStudents()">
-                        <option value="">选择课程 (Select Course)</option>
+                        <option value="">Select Course (选择课程)</option>
                     </select>
-                    <input type="text" id="courseStudentId" placeholder="学生ID (Student ID)">
-                    <button onclick="addStudentToCourse()" class="btn btn-primary">添加至课程 (Add to Course)</button>
-                    <button onclick="removeStudentFromCourse()" class="btn btn-danger">从课程移除 (Remove from Course)</button>
+                    <input type="text" id="courseStudentId" placeholder="Student ID (学生ID)">
+                    <button onclick="addStudentToCourse()" class="btn btn-primary">Add to Course (添加至课程)</button>
+                    <button onclick="removeStudentFromCourse()" class="btn btn-danger">Remove from Course (从课程移除)</button>
                 </div>
             </div>
 
             <div class="section">
-                <h2>课程学生列表 (Course Student List)</h2>
+                <h2>Course Student List (课程学生列表)</h2>
                 <div id="courseStudentsList" class="list-container">
-                    <p class="loading">请选择课程查看学生列表 (Please select a course to view student list)</p>
+                    <p class="loading">Please select a course to view student list (请选择课程查看学生列表)</p>
                 </div>
             </div>
 
             <div class="section">
-                <h2>更新学生成绩 (影响排序) (Update Student Grades - Affects Sorting)</h2>
+                <h2>Update Student Grades (Affects Sorting) (更新学生成绩 - 影响排序)</h2>
                 <div class="form-group">
-                    <input type="text" id="updateCourseId" placeholder="课程ID (Course ID)">
-                    <input type="text" id="updateStudentId" placeholder="学生ID (Student ID)">
-                    <input type="text" id="updateGrades" placeholder="新成绩 (用逗号分隔) (New Grades - Comma Separated)">
-                    <button onclick="updateStudentGrades()" class="btn btn-warning">更新成绩 (Update Grades)</button>
+                    <input type="text" id="updateCourseId" placeholder="Course ID (课程ID)">
+                    <input type="text" id="updateStudentId" placeholder="Student ID (学生ID)">
+                    <input type="text" id="updateGrades" placeholder="New Grades (Comma Separated) (新成绩 - 用逗号分隔)">
+                    <button onclick="updateStudentGrades()" class="btn btn-warning">Update Grades (更新成绩)</button>
                 </div>
             </div>
         </div>
 
-        <!-- 统计信息标签页 -->
+        <!-- Statistics Tab -->
         <div id="statistics-tab" class="tab-content">
             <div class="section">
-                <h2>系统统计 (System Statistics)</h2>
-                <button onclick="loadStatistics()" class="btn btn-secondary">刷新统计 (Refresh Statistics)</button>
+                <h2>System Statistics (系统统计)</h2>
+                <button onclick="loadStatistics()" class="btn btn-secondary">Refresh Statistics (刷新统计)</button>
                 <div id="statisticsContainer" class="stats-container">
-                    <p class="loading">正在加载统计信息... (Loading statistics...)</p>
+                    <p class="loading">Loading statistics... (正在加载统计信息)</p>
                 </div>
             </div>
         </div>
 
-        <!-- 消息提示区域 -->
+        <!-- Message Area -->
         <div id="messageArea" class="message-area" style="display: none;"></div>
     </div>
 
-    <!-- 成绩详情模态框 -->
+    <!-- Grades Modal -->
     <div id="gradesModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="gradesModalTitle">学生成绩详情 (Student Grade Details)</h2>
+            <h2 id="gradesModalTitle">Student Grade Details (学生成绩详情)</h2>
             <div id="gradesModalContent"></div>
         </div>
     </div>
