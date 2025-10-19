@@ -4,6 +4,7 @@ import com.graduation.entity.Course;
 import com.graduation.entity.Student;
 import com.graduation.entity.Grade;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,8 +16,8 @@ import java.util.Scanner;
 public class GraduationRecords {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final List<Student> students = new ArrayList<>();
-    private static final List<Course> courses = new ArrayList<>();
+    private static final List<Student> students = new LinkedList<>();
+    private static final List<Course> courses = new LinkedList<>();
 
     public static void main(String[] args) {
         System.out.println("=========================================");

@@ -525,7 +525,7 @@ async function loadStatistics() {
             </div>
             <div class="stat-card">
                 <div class="stat-value">${totalStudents}</div>
-                <div class="stat-label">Total Students (总学生数)</div>
+                <div class="stat-label">Total Course Enrollments (所有课程参加的学生总数)</div>
             </div>
         `;
 

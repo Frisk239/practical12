@@ -3,6 +3,7 @@ package com.graduation.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.*;
+import java.util.LinkedList;
 
 /**
  * Activity 1: Course entity
@@ -29,7 +30,7 @@ public class Course {
         inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     @JsonManagedReference
-    private List<Student> students = new ArrayList<>();
+    private List<Student> students = new LinkedList<>();
 
     // Constructors
     public Course() {}
